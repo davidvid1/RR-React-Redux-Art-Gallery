@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    objectId: 5500,
+    objectId: 14200,
     apiData: {}
 }
 
@@ -17,6 +17,16 @@ export const dataSlice = createSlice({
     }
 })
 
+export const fetchData = () => {
+    const dataThunk = async (dispatch, getState) => {
+        const data = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${getState().data.objectId}`)
+        const resData = await data.json()
+        dispatch(setData(resData))
+    }
+    return dataThunk
+}
+
 export const { setData, incrementId, decrementId, customId, clearData } = dataSlice.actions
 
 export default dataSlice.reducer
+
